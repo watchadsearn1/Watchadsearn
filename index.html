@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WatchAdsEarn</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #000000;
+            min-height: 100vh;
+            color: #ffffff;
+        }
+
+        /* Auth Screen Styles */
+        .auth-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .auth-card {
+            background: #111111;
+            border: 1px solid #333333;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.05);
+        }
+
+        .auth-logo {
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .auth-tagline {
+            color: #888888;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+
+        .auth-form {
+            margin-top: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cccccc;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            background: #000000;
+            border: 1px solid #333333;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #ffffff;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+        }
+
+        .auth-btn {
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+        }
+
+        .auth-btn:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        .auth-switch {
+            margin-top: 25px;
+            color: #888888;
+            font-size: 0.9rem;
+        }
+
+        .auth-switch a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main App Styles */
+        .app-container {
+            display: none;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            color: #888888;
+            font-size: 1rem;
+        }
+
+        .card {
+            background: #111111;
+            border: 1px solid #333333;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            animation: slideUp 0.6s ease;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: #555555;
+            transform: translateY(-2px);
+        }
+
+        .balance-section {
+            text-align: center;
+        }
+
+        .balance-amount {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin: 10px 0;
+        }
+
+        .balance-label {
+            color: #888888;
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            padding: 16px 25px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #333333;
+            color: #ffffff;
+        }
+
+        .btn-secondary:hover {
+            background: #444444;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #888888;
+        }
+
+        .ad-container {
+            background: #000000;
+            border: 1px solid #333333;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .ad-placeholder {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888888;
+            font-style: italic;
+        }
+
+        .withdrawal-section {
+            margin-top: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 14px;
+            background: #000000;
+            border: 1px solid #333333;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #ffffff;
+            outline: none;
+        }
+
+        .commission-note {
+            font-size: 0.8rem;
+            color: #888888;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Loading spinner */
+        .loader {
+            border: 4px solid #333333;
+            border-top: 4px solid #ffffff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffffff;
+            color: #000000;
+            padding: 12px 20px;
+            border-radius: 50px;
+            box-shadow: 0 5px 25px rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            font-weight: 500;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        /* User info */
+        .user-info {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #888888;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Auth Screen -->
+    <div class="auth-container" id="authContainer">
+        <div class="auth-card">
+            <div class="auth-logo">💰 WatchAdsEarn</div>
+            <div class="auth-tagline">Watch Ads • Earn Money • Simple Withdrawals</div>
+            
+            <!-- Login Form -->
+            <div id="loginForm">
+                <div class="auth-form">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password">
+                    </div>
+                    <button class="auth-btn" id="loginBtn">Login</button>
+                    <div class="auth-switch">
+                        Don't have an account? <a href="#" id="showSignup">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Signup Form -->
+            <div id="signupForm" class="hidden">
+                <div class="auth-form">
+                    <div class="form-group">
+                        <label for="signupName">Full Name</label>
+                        <input type="text" id="signupName" placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email</label>
+                        <input type="email" id="signupEmail" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" placeholder="Create a password">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupConfirmPassword">Confirm Password</label>
+                        <input type="password" id="signupConfirmPassword" placeholder="Confirm your password">
+                    </div>
+                    <button class="auth-btn" id="signupBtn">Create Account</button>
+                    <div class="auth-switch">
+                        Already have an account? <a href="#" id="showLogin">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="app-container" id="appContainer">
+        <div class="header">
+            <div class="logo">💰 WatchAdsEarn</div>
+            <div class="tagline">Watch Ads • Earn Money • Simple Withdrawals</div>
+            <div class="user-info">Welcome, <span id="userName">User</span></div>
+        </div>
+
+        <div class="card balance-section">
+            <div class="balance-label">Your Balance</div>
+            <div class="balance-amount">₹<span id="userBalance">0.00</span></div>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="adsWatched">0</div>
+                    <div class="stat-label">Ads Watched</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">₹<span id="totalEarned">0.00</span></div>
+                    <div class="stat-label">Total Earned</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="todayEarnings">0</div>
+                    <div class="stat-label">Today</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 style="color: #ffffff; margin-bottom: 15px;">Watch Ads & Earn</h3>
+            <p style="color: #888888; margin: 10px 0; font-size: 0.9rem;">
+                You earn 40% of ad revenue for every ad you watch!
+            </p>
+            
+            <div class="ad-container">
+                <div class="ad-placeholder" id="adPlaceholder">
+                    Ready to watch ads and earn money?
+                </div>
+            </div>
+            
+            <button class="btn pulse" id="watchAdBtn">Watch Ad & Earn ₹2-5</button>
+            <div class="commission-note">
+                Admin commission: 60% per ad
+            </div>
+        </div>
+
+        <div class="card withdrawal-section">
+            <h3 style="color: #ffffff; margin-bottom: 15px;">Withdraw Earnings</h3>
+            <p style="color: #888888; margin: 10px 0; font-size: 0.9rem;">
+                Minimum withdrawal: ₹20 | Maximum: No limit
+            </p>
+            
+            <div class="input-group">
+                <label for="withdrawAmount">Amount (₹)</label>
+                <input type="number" id="withdrawAmount" placeholder="Enter amount" min="20">
+            </div>
+            
+            <div class="input-group">
+                <label for="withdrawMethod">Withdrawal Method</label>
+                <select id="withdrawMethod">
+                    <option value="upi">UPI</option>
+                    <option value="bank">Bank Transfer</option>
+                </select>
+            </div>
+            
+            <div class="input-group" id="upiDetails">
+                <label for="upiId">UPI ID</label>
+                <input type="text" id="upiId" placeholder="Enter your UPI ID">
+            </div>
+            
+            <div class="input-group hidden" id="bankDetails">
+                <label for="accountNumber">Account Number</label>
+                <input type="text" id="accountNumber" placeholder="Enter account number">
+                <label for="ifscCode" style="margin-top: 10px;">IFSC Code</label>
+                <input type="text" id="ifscCode" placeholder="Enter IFSC code">
+            </div>
+            
+            <button class="btn btn-secondary" id="withdrawBtn">Request Withdrawal</button>
+            <div class="commission-note">
+                For withdrawals above ₹100: 10% admin commission
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 style="color: #ffffff; margin-bottom: 15px;">How It Works</h3>
+            <ul style="padding-left: 20px; margin: 15px 0; color: #888888;">
+                <li>Watch unlimited ads anytime</li>
+                <li>Earn 40% of ad revenue for each ad</li>
+                <li>Withdraw minimum ₹20 via UPI/Bank</li>
+                <li>No maximum withdrawal limit</li>
+                <li>10% commission on withdrawals above ₹100</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Initialize Telegram Web App
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        
+        // DOM Elements
+        const authContainer = document.getElementById('authContainer');
+        const appContainer = document.getElementById('appContainer');
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const showSignup = document.getElementById('showSignup');
+        const showLogin = document.getElementById('showLogin');
+        const loginBtn = document.getElementById('loginBtn');
+        const signupBtn = document.getElementById('signupBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userName = document.getElementById('userName');
+
+        // User data
+        let currentUser = null;
+        let userData = {
+            balance: 15.50,
+            adsWatched: 7,
+            totalEarned: 28.50,
+            todayEarnings: 3
+        };
+
+        // Check if user is already logged in
+        function checkAuth() {
+            const savedUser = localStorage.getItem('watchadsearn_user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showApp();
+            }
+        }
+
+        // Show auth screen
+        function showAuth() {
+            authContainer.style.display = 'flex';
+            appContainer.style.display = 'none';
+        }
+
+        // Show main app
+        function showApp() {
+            authContainer.style.display = 'none';
+            appContainer.style.display = 'block';
+            userName.textContent = currentUser.name;
+            updateUI();
+            showToast(`Welcome back, ${currentUser.name}!`);
+        }
+
+        // Switch to signup form
+        showSignup.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginForm.classList.add('hidden');
+            signupForm.classList.remove('hidden');
+        });
+
+        // Switch to login form
+        showLogin.addEventListener('click', function(e) {
+            e.preventDefault();
+            signupForm.classList.add('hidden');
+            loginForm.classList.remove('hidden');
+        });
+
+        // Login function
+        loginBtn.addEventListener('click', function() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                showToast('Please fill in all fields');
+                return;
+            }
+
+            // Simulate login process
+            const users = JSON.parse(localStorage.getItem('watchadsearn_users') || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('watchadsearn_user', JSON.stringify(user));
+                showApp();
+            } else {
+                showToast('Invalid email or password');
+            }
+        });
+
+        // Signup function
+        signupBtn.addEventListener('click', function() {
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+
+            if (!name || !email || !password || !confirmPassword) {
+                showToast('Please fill in all fields');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showToast('Passwords do not match');
+                return;
+            }
+
+            if (password.length < 6) {
+                showToast('Password must be at least 6 characters');
+                return;
+            }
+
+            // Check if user already exists
+            const users = JSON.parse(localStorage.getItem('watchadsearn_users') || '[]');
+            if (users.find(u => u.email === email)) {
+                showToast('User already exists with this email');
+                return;
+            }
+
+            // Create new user
+            const newUser = {
+                id: Date.now(),
+                name: name,
+                email: email,
+                password: password,
+                joinedDate: new Date().toISOString()
+            };
+            users.push(newUser);
+            localStorage.setItem('watchadsearn_users', JSON.stringify(users));
+            
+            currentUser = newUser;
+            localStorage.setItem('watchadsearn_user', JSON.stringify(newUser));
+            
+            showApp();
+            showToast('Account created successfully!');
+        });
+
+        // Logout function
+        logoutBtn.addEventListener('click', function() {
+            localStorage.removeItem('watchadsearn_user');
+            currentUser = null;
+            showAuth();
+            showToast('Logged out successfully');
+        });
+
+        // App functionality (same as before)
+        const userBalanceEl = document.getElementById('userBalance');
+        const adsWatchedEl = document.getElementById('adsWatched');
+        const totalEarnedEl = document.getElementById('totalEarned');
+        const todayEarningsEl = document.getElementById('todayEarnings');
+        const watchAdBtn = document.getElementById('watchAdBtn');
+        const withdrawBtn = document.getElementById('withdrawBtn');
+        const withdrawAmount = document.getElementById('withdrawAmount');
+        const withdrawMethod = document.getElementById('withdrawMethod');
+        const upiDetails = document.getElementById('upiDetails');
+        const bankDetails = document.getElementById('bankDetails');
+        const adPlaceholder = document.getElementById('adPlaceholder');
+        const toast = document.getElementById('toast');
+
+        function updateUI() {
+            userBalanceEl.textContent = userData.balance.toFixed(2);
+            adsWatchedEl.textContent = userData.adsWatched;
+            totalEarnedEl.textContent = userData.totalEarned.toFixed(2);
+            todayEarningsEl.textContent = userData.todayEarnings;
+        }
+
+        function showToast(message, duration = 3000) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, duration);
+        }
+   // Watch ad function
+        watchAdBtn.addEventListener('click', function() {
+            if (!currentUser) {
+                showToast('Please login first');
+                return;
+            }
+
+            watchAdBtn.disabled = true;
+            watchAdBtn.textContent = 'Loading Ad...';
+            adPlaceholder.innerHTML = '<div class="loader"></div><div>Loading advertisement...</div>';
+            
+            setTimeout(() => {
+                const earning = (Math.random() * 3 + 2).toFixed(2);
+                
+                userData.balance += parseFloat(earning);
+                userData.adsWatched += 1;
+                userData.totalEarned += parseFloat(earning);
+                userData.todayEarnings += 1;
+                
+                updateUI();
+                adPlaceholder.innerHTML = `✅ Ad completed! You earned ₹${earning}`;
+                showToast(`🎉 You earned ₹${earning}!`);
+                
+                setTimeout(() => {
+                    watchAdBtn.disabled = false;
+                    watchAdBtn.textContent = 'Watch Ad & Earn ₹2-5';
+                    adPlaceholder.textContent = 'Ready to watch another ad and earn money?';
+                }, 2000);
+            }, 3000);
+        });
+
+        // Handle withdrawal method change
+        withdrawMethod.addEventListener('change', function() {
+            if (this.value === 'upi') {
+                upiDetails.classList.remove('hidden');
+                bankDetails.classList.add('hidden');
+            } else {
+                upiDetails.classList.add('hidden');
+                bankDetails.classList.remove('hidden');
+            }
+        });
+
+        // Handle withdrawal request
+        withdrawBtn.addEventListener('click', function() {
+            if (!currentUser) {
+                showToast('Please login first');
+                return;
+            }
+
+            const amount = parseFloat(withdrawAmount.value);
+            const method = withdrawMethod.value;
+            
+            if (!amount || amount < 20) {
+                showToast('Minimum withdrawal amount is ₹20');
+                return;
+            }
+            
+            if (amount > userData.balance) {
+                showToast('Insufficient balance');
+                return;
+            }
+            
+            let detailsValid = true;
+            if (method === 'upi') {
+                const upiId = document.getElementById('upiId').value;
+                if (!upiId) {
+                    showToast('Please enter UPI ID');
+                    detailsValid = false;
+                }
+            } else {
+                const accountNumber = document.getElementById('accountNumber').value;
+                const ifscCode = document.getElementById('ifscCode').value;
+                if (!accountNumber || !ifscCode) {
+                    showToast('Please enter bank details');
+                    detailsValid = false;
+                }
+            }
+            
+            if (!detailsValid) return;
+            
+            let finalAmount = amount;
+            let commission = 0;
+            
+            if (amount > 100) {
+                commission = amount * 0.10;
+                finalAmount = amount - commission;
+            }
+            
+            userData.balance -= amount;
+            updateUI();
+            
+            let successMsg = `Withdrawal request of ₹${amount} submitted!`;
+            if (commission > 0) {
+                successMsg += ` (₹${commission} commission applied)`;
+            }
+            
+            showToast(successMsg);
+            withdrawAmount.value = '';
+            document.getElementById('upiId').value = '';
+            document.getElementById('accountNumber').value = '';
+            document.getElementById('ifscCode').value = '';
+        });
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+        });
+    </script>
+</body>
+</html>
