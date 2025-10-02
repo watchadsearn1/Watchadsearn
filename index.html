@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WatchAdsEarn</title>
+    <title>WatchAdsEarn - Game App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <!-- Montag SDK -->
     <script src='//libtl.com/sdk.js' data-zone='9798816' data-sdk='show_9798816'></script>
@@ -12,248 +12,229 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #0f172a;
+            --darker: #020617;
+            --card-bg: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
         }
 
         body {
-            background: #000000;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
             min-height: 100vh;
-            color: #ffffff;
+            color: var(--text);
+            background-attachment: fixed;
         }
 
-        /* Auth Screen Styles */
-        .auth-container {
+        .container {
             max-width: 400px;
             margin: 0 auto;
-            padding: 40px 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .auth-card {
-            background: #111111;
-            border: 1px solid #333333;
-            border-radius: 20px;
-            padding: 40px 30px;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.05);
-        }
-
-        .auth-logo {
-            font-size: 2.8rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #ffffff;
-        }
-
-        .auth-tagline {
-            color: #888888;
-            margin-bottom: 30px;
-            font-size: 1rem;
-        }
-
-        .auth-form {
-            margin-top: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #cccccc;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .form-group input {
-            width: 100%;
             padding: 15px;
-            background: #000000;
-            border: 1px solid #333333;
-            border-radius: 10px;
-            color: #ffffff;
-            font-size: 1rem;
-            transition: all 0.3s ease;
         }
 
-        .form-group input:focus {
-            border-color: #ffffff;
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
-        }
-
-        .auth-btn {
-            background: #ffffff;
-            color: #000000;
-            border: none;
-            padding: 16px;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            margin: 10px 0;
-            transition: all 0.3s ease;
-        }
-
-        .auth-btn:hover {
-            background: #e0e0e0;
-            transform: translateY(-2px);
-        }
-
-        .auth-switch {
-            margin-top: 25px;
-            color: #888888;
-            font-size: 0.9rem;
-        }
-
-        .auth-switch a {
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: bold;
-            margin-left: 5px;
-        }
-
-        .auth-switch a:hover {
-            text-decoration: underline;
-        }
-
-        /* Main App Styles */
-        .app-container {
-            display: none;
-            max-width: 400px;
-            margin: 0 auto;
+        /* Header Styles */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 20px;
             padding: 20px;
-            min-height: 100vh;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            animation: fadeInDown 0.8s ease;
-        }
-
-        .logo {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #ffffff;
-            margin-bottom: 10px;
-        }
-
-        .tagline {
-            color: #888888;
-            font-size: 1rem;
-        }
-
-        .card {
-            background: #111111;
-            border: 1px solid #333333;
-            border-radius: 16px;
-            padding: 25px;
             margin-bottom: 20px;
-            animation: slideUp 0.6s ease;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(45deg) translateX(-100%); }
+            100% { transform: rotate(45deg) translateX(100%); }
+        }
+
+        .app-logo {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .app-tagline {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        /* Card Styles */
+        .game-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .card:hover {
-            border-color: #555555;
-            transform: translateY(-2px);
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
         }
 
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+        }
+
+        /* Balance Section */
         .balance-section {
             text-align: center;
+            background: linear-gradient(135deg, var(--card-bg) 0%, #2d3748 100%);
         }
 
         .balance-amount {
             font-size: 3rem;
             font-weight: bold;
-            color: #ffffff;
+            color: var(--secondary);
             margin: 10px 0;
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
         }
 
         .balance-label {
-            color: #888888;
+            color: var(--text-muted);
             font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .btn {
-            background: #ffffff;
-            color: #000000;
-            border: none;
-            padding: 16px 25px;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            margin: 10px 0;
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            background: #e0e0e0;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: #333333;
-            color: #ffffff;
-        }
-
-        .btn-secondary:hover {
-            background: #444444;
-        }
-
-        .stats {
-            display: flex;
-            justify-content: space-between;
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
             margin: 20px 0;
         }
 
         .stat-item {
             text-align: center;
-            flex: 1;
+            padding: 15px 10px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 12px;
+            border: 1px solid var(--border);
         }
 
         .stat-value {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: bold;
-            color: #ffffff;
+            color: var(--text);
+            margin-bottom: 5px;
         }
 
         .stat-label {
-            font-size: 0.8rem;
-            color: #888888;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
+        /* Buttons */
+        .game-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin: 8px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .game-btn:hover::before {
+            left: 100%;
+        }
+
+        .game-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+        }
+
+        .game-btn:active {
+            transform: translateY(0);
+        }
+
+        .game-btn-secondary {
+            background: linear-gradient(135deg, #475569 0%, #334155 100%);
+            box-shadow: 0 4px 15px rgba(71, 85, 105, 0.4);
+        }
+
+        .game-btn-success {
+            background: linear-gradient(135deg, var(--secondary) 0%, #059669 100%);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Ad Container */
         .ad-container {
-            background: #000000;
-            border: 1px solid #333333;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 2px dashed var(--border);
             border-radius: 12px;
             padding: 20px;
             margin: 15px 0;
             text-align: center;
+            position: relative;
         }
 
         .ad-placeholder {
-            height: 150px;
+            height: 120px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #888888;
+            color: var(--text-muted);
             font-style: italic;
         }
 
-        .withdrawal-section {
-            margin-top: 20px;
-        }
-
+        /* Input Groups */
         .input-group {
             margin-bottom: 15px;
         }
@@ -261,74 +242,60 @@
         .input-group label {
             display: block;
             margin-bottom: 8px;
-            color: #cccccc;
+            color: var(--text-muted);
             font-size: 0.9rem;
+            font-weight: 500;
         }
 
-        .input-group input, .input-group select {
+        .game-input {
             width: 100%;
-            padding: 14px;
-            background: #000000;
-            border: 1px solid #333333;
+            padding: 14px 16px;
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid var(--border);
             border-radius: 10px;
-            color: #ffffff;
+            color: var(--text);
             font-size: 1rem;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s ease;
         }
 
-        .input-group input:focus, .input-group select:focus {
-            border-color: #ffffff;
+        .game-input:focus {
+            border-color: var(--primary);
             outline: none;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
 
+        .game-select {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        /* Commission Notes */
         .commission-note {
             font-size: 0.8rem;
-            color: #888888;
+            color: var(--text-muted);
             text-align: center;
             margin: 10px 0;
+            padding: 10px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
         }
 
+        /* Hidden Utility */
         .hidden {
             display: none;
         }
 
-        /* Animations */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        /* Loading spinner */
+        /* Loading Spinner */
         .loader {
-            border: 4px solid #333333;
-            border-top: 4px solid #ffffff;
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--primary);
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -341,33 +308,100 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Toast notifications */
+        /* Toast Notifications */
         .toast {
             position: fixed;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: #ffffff;
-            color: #000000;
+            background: var(--card-bg);
+            color: var(--text);
             padding: 12px 20px;
             border-radius: 50px;
-            box-shadow: 0 5px 25px rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
             z-index: 1000;
             opacity: 0;
             transition: opacity 0.3s ease;
             font-weight: 500;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
         }
 
         .toast.show {
             opacity: 1;
         }
 
-        /* User info */
+        /* User Info */
         .user-info {
             text-align: center;
             margin-bottom: 10px;
-            color: #888888;
+            color: var(--text-muted);
             font-size: 0.9rem;
+        }
+
+        /* Pulse Animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Auth Styles */
+        .auth-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .auth-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+        }
+
+        .auth-logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
         }
     </style>
 </head>
@@ -375,49 +409,49 @@
     <!-- Auth Screen -->
     <div class="auth-container" id="authContainer">
         <div class="auth-card">
-            <div class="auth-logo">💰 WatchAdsEarn</div>
-            <div class="auth-tagline">Watch Ads • Earn Money • Simple Withdrawals</div>
+            <div class="auth-logo">🎮 WatchAdsEarn</div>
+            <div class="app-tagline">Game App & Gaming Store • Watch Ads • Earn Money</div>
             
             <!-- Login Form -->
             <div id="loginForm">
-                <div class="auth-form">
+                <div style="margin-top: 30px;">
                     <div class="form-group">
                         <label for="loginEmail">Email</label>
-                        <input type="email" id="loginEmail" placeholder="Enter your email">
+                        <input type="email" id="loginEmail" class="game-input" placeholder="Enter your email">
                     </div>
                     <div class="form-group">
                         <label for="loginPassword">Password</label>
-                        <input type="password" id="loginPassword" placeholder="Enter your password">
+                        <input type="password" id="loginPassword" class="game-input" placeholder="Enter your password">
                     </div>
-                    <button class="auth-btn" id="loginBtn">Login</button>
-                    <div class="auth-switch">
-                        Don't have an account? <a href="#" id="showSignup">Sign Up</a>
+                    <button class="game-btn" id="loginBtn">🚀 Login</button>
+                    <div style="margin-top: 25px; color: var(--text-muted); font-size: 0.9rem;">
+                        Don't have an account? <a href="#" id="showSignup" style="color: var(--primary); text-decoration: none; font-weight: bold;">Sign Up</a>
                     </div>
                 </div>
             </div>
             
             <!-- Signup Form -->
             <div id="signupForm" class="hidden">
-                <div class="auth-form">
+                <div style="margin-top: 30px;">
                     <div class="form-group">
                         <label for="signupName">Full Name</label>
-                        <input type="text" id="signupName" placeholder="Enter your full name">
+                        <input type="text" id="signupName" class="game-input" placeholder="Enter your full name">
                     </div>
                     <div class="form-group">
                         <label for="signupEmail">Email</label>
-                        <input type="email" id="signupEmail" placeholder="Enter your email">
+                        <input type="email" id="signupEmail" class="game-input" placeholder="Enter your email">
                     </div>
                     <div class="form-group">
                         <label for="signupPassword">Password</label>
-                        <input type="password" id="signupPassword" placeholder="Create a password">
+                        <input type="password" id="signupPassword" class="game-input" placeholder="Create a password">
                     </div>
                     <div class="form-group">
                         <label for="signupConfirmPassword">Confirm Password</label>
-                        <input type="password" id="signupConfirmPassword" placeholder="Confirm your password">
+                        <input type="password" id="signupConfirmPassword" class="game-input" placeholder="Confirm your password">
                     </div>
-                    <button class="auth-btn" id="signupBtn">Create Account</button>
-                    <div class="auth-switch">
-                        Already have an account? <a href="#" id="showLogin">Login</a>
+                    <button class="game-btn game-btn-success" id="signupBtn">🎯 Create Account</button>
+                    <div style="margin-top: 25px; color: var(--text-muted); font-size: 0.9rem;">
+                        Already have an account? <a href="#" id="showLogin" style="color: var(--primary); text-decoration: none; font-weight: bold;">Login</a>
                     </div>
                 </div>
             </div>
@@ -425,17 +459,20 @@
     </div>
 
     <!-- Main App -->
-    <div class="app-container" id="appContainer">
-        <div class="header">
-            <div class="logo">💰 WatchAdsEarn</div>
-            <div class="tagline">Watch Ads • Earn Money • Simple Withdrawals</div>
-            <div class="user-info">Welcome, <span id="userName">User</span></div>
+    <div class="container" id="appContainer" style="display: none;">
+        <!-- Header -->
+        <div class="app-header">
+            <div class="app-logo">🎮 WatchAdsEarn</div>
+            <div class="app-tagline">Game App & Gaming Store • Watch Ads • Earn Money</div>
+            <div class="user-info">Welcome, <span id="userName" style="color: var(--accent);">Player</span></div>
         </div>
 
-        <div class="card balance-section">
-            <div class="balance-label">Your Balance</div>
+        <!-- Balance Card -->
+        <div class="game-card balance-section">
+            <div class="balance-label">Your Game Balance</div>
             <div class="balance-amount">₹<span id="userBalance">0.00</span></div>
-            <div class="stats">
+            
+            <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-value" id="adsWatched">0</div>
                     <div class="stat-label">Ads Watched</div>
@@ -451,77 +488,107 @@
             </div>
         </div>
 
-        <div class="card">
-            <h3 style="color: #ffffff; margin-bottom: 15px;">Watch Ads & Earn</h3>
-            <p style="color: #888888; margin: 10px 0; font-size: 0.9rem;">
-                You earn 40% of ad revenue for every ad you watch!
+        <!-- Watch Ads Card -->
+        <div class="game-card">
+            <h3 style="color: var(--text); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                <span>📱</span> Watch Ads & Earn
+            </h3>
+            <p style="color: var(--text-muted); margin: 10px 0; font-size: 0.9rem;">
+                Watch ads and level up your balance! Earn 40% of ad revenue.
             </p>
             
             <div class="ad-container">
                 <div class="ad-placeholder" id="adPlaceholder">
-                    Ready to watch ads and earn money?
+                    🎯 Ready to watch ads and earn rewards?
                 </div>
             </div>
             
-            <button class="btn pulse" id="watchAdBtn">Watch Ad & Earn ₹2-5</button>
+            <button class="game-btn pulse" id="watchAdBtn">
+                🎮 Watch Ad & Earn ₹2-5
+            </button>
             <div class="commission-note">
-                Admin commission: 60% per ad
+                💰 Game Commission: 60% per ad • Unlimited plays!
             </div>
         </div>
 
-        <div class="card withdrawal-section">
-            <h3 style="color: #ffffff; margin-bottom: 15px;">Withdraw Earnings</h3>
-            <p style="color: #888888; margin: 10px 0; font-size: 0.9rem;">
-                Minimum withdrawal: ₹20 | Maximum: No limit
+        <!-- Withdrawal Card -->
+        <div class="game-card">
+            <h3 style="color: var(--text); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                <span>🏦</span> Bank & UPI Withdrawal
+            </h3>
+            <p style="color: var(--text-muted); margin: 10px 0; font-size: 0.9rem;">
+                Minimum: ₹20 | Maximum: No limit | Instant processing
             </p>
             
             <div class="input-group">
-                <label for="withdrawAmount">Amount (₹)</label>
-                <input type="number" id="withdrawAmount" placeholder="Enter amount" min="20">
+                <label for="withdrawAmount">💰 Amount (₹)</label>
+                <input type="number" id="withdrawAmount" class="game-input" placeholder="Enter amount" min="20">
             </div>
             
             <div class="input-group">
-                <label for="withdrawMethod">Withdrawal Method</label>
-                <select id="withdrawMethod">
-                    <option value="upi">UPI</option>
-                    <option value="bank">Bank Transfer</option>
+                <label for="withdrawMethod">🎯 Withdrawal Method</label>
+                <select id="withdrawMethod" class="game-select">
+                    <option value="upi">📱 UPI Transfer</option>
+                    <option value="bank">🏦 Bank Transfer</option>
                 </select>
             </div>
             
             <div class="input-group" id="upiDetails">
-                <label for="upiId">UPI ID</label>
-                <input type="text" id="upiId" placeholder="Enter your UPI ID">
+                <label for="upiId">📱 UPI ID</label>
+                <input type="text" id="upiId" class="game-input" placeholder="Enter your UPI ID">
             </div>
             
             <div class="input-group hidden" id="bankDetails">
-                <label for="accountNumber">Account Number</label>
-                <input type="text" id="accountNumber" placeholder="Enter account number">
-                <label for="ifscCode" style="margin-top: 10px;">IFSC Code</label>
-                <input type="text" id="ifscCode" placeholder="Enter IFSC code">
+                <label for="accountNumber">🏦 Account Number</label>
+                <input type="text" id="accountNumber" class="game-input" placeholder="Enter account number">
+                <label for="ifscCode" style="margin-top: 10px;">🔢 IFSC Code</label>
+                <input type="text" id="ifscCode" class="game-input" placeholder="Enter IFSC code">
             </div>
             
-            <button class="btn btn-secondary" id="withdrawBtn">Request Withdrawal</button>
+            <button class="game-btn game-btn-success" id="withdrawBtn">
+                💸 Request Withdrawal
+            </button>
             <div class="commission-note">
-                For withdrawals above ₹100: 10% admin commission
+                ⚡ For withdrawals above ₹100: 10% game commission
             </div>
         </div>
 
-        <div class="card">
-            <h3 style="color: #ffffff; margin-bottom: 15px;">How It Works</h3>
-            <ul style="padding-left: 20px; margin: 15px 0; color: #888888;">
-                <li>Watch unlimited ads anytime</li>
-                <li>Earn 40% of ad revenue for each ad</li>
-                <li>Withdraw minimum ₹20 via UPI/Bank</li>
-                <li>No maximum withdrawal limit</li>
-                <li>10% commission on withdrawals above ₹100</li>
-            </ul>
+        <!-- How It Works -->
+        <div class="game-card">
+            <h3 style="color: var(--text); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                <span>📋</span> Game Rules
+            </h3>
+            <div style="color: var(--text-muted); line-height: 1.6;">
+                <div style="display: flex; align-items: center; gap: 10px; margin: 8px 0;">
+                    <span>🎯</span> Watch unlimited ads anytime
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; margin: 8px 0;">
+                    <span>💰</span> Earn 40% of ad revenue per view
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; margin: 8px 0;">
+                    <span>🏦</span> Withdraw min ₹20 via UPI/Bank
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; margin: 8px 0;">
+                    <span>⚡</span> No maximum withdrawal limit
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; margin: 8px 0;">
+                    <span>🎮</span> 10% commission on ₹100+ withdrawals
+                </div>
+            </div>
         </div>
 
-        <div class="card">
-            <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+        <!-- Admin & Logout -->
+        <div class="game-card">
+            <button class="game-btn game-btn-secondary" id="showAdminBtn">
+                👑 Admin Panel
+            </button>
+            <button class="game-btn game-btn-secondary" id="logoutBtn" style="margin-top: 10px;">
+                🚪 Logout
+            </button>
         </div>
     </div>
 
+    <!-- Toast Notification -->
     <div class="toast" id="toast"></div>
 
     <script>
@@ -544,9 +611,9 @@
         // User data
         let currentUser = null;
         let userData = {
-            balance: 15.50,
-            adsWatched: 7,
-            totalEarned: 28.50,
+            balance: 25.75,
+            adsWatched: 12,
+            totalEarned: 45.25,
             todayEarnings: 3
         };
 
@@ -571,7 +638,7 @@
             appContainer.style.display = 'block';
             userName.textContent = currentUser.name;
             updateUI();
-            showToast(`Welcome back, ${currentUser.name}!`);
+            showToast(`🎮 Welcome back, ${currentUser.name}! Ready to earn?`);
         }
 
         // Switch to signup form
@@ -594,7 +661,7 @@
             const password = document.getElementById('loginPassword').value;
 
             if (!email || !password) {
-                showToast('Please fill in all fields');
+                showToast('🎯 Please fill in all fields');
                 return;
             }
 
@@ -607,7 +674,7 @@
                 localStorage.setItem('watchadsearn_user', JSON.stringify(user));
                 showApp();
             } else {
-                showToast('Invalid email or password');
+                showToast('❌ Invalid email or password');
             }
         });
 
@@ -619,24 +686,24 @@
             const confirmPassword = document.getElementById('signupConfirmPassword').value;
 
             if (!name || !email || !password || !confirmPassword) {
-                showToast('Please fill in all fields');
+                showToast('🎯 Please fill in all fields');
                 return;
             }
 
             if (password !== confirmPassword) {
-                showToast('Passwords do not match');
+                showToast('🔒 Passwords do not match');
                 return;
             }
 
             if (password.length < 6) {
-                showToast('Password must be at least 6 characters');
+                showToast('🔒 Password must be at least 6 characters');
                 return;
             }
 
             // Check if user already exists
             const users = JSON.parse(localStorage.getItem('watchadsearn_users') || '[]');
             if (users.find(u => u.email === email)) {
-                showToast('User already exists with this email');
+                showToast('📧 User already exists with this email');
                 return;
             }
 
@@ -656,7 +723,7 @@
             localStorage.setItem('watchadsearn_user', JSON.stringify(newUser));
             
             showApp();
-            showToast('Account created successfully!');
+            showToast('🎉 Account created successfully! Start earning!');
         });
 
         // Logout function
@@ -664,7 +731,7 @@
             localStorage.removeItem('watchadsearn_user');
             currentUser = null;
             showAuth();
-            showToast('Logged out successfully');
+            showToast('👋 Logged out successfully');
         });
 
         // App functionality
@@ -696,20 +763,19 @@
             }, duration);
         }
 
-        // MONTAG AD INTEGRATION - EXACT CODE FROM YOUR DASHBOARD
+        // MONTAG AD INTEGRATION
         watchAdBtn.addEventListener('click', function() {
             if (!currentUser) {
-                showToast('Please login first');
+                showToast('🎯 Please login first');
                 return;
             }
 
             watchAdBtn.disabled = true;
-            watchAdBtn.textContent = 'Loading Ad...';
+            watchAdBtn.textContent = '🔄 Loading Ad...';
             adPlaceholder.innerHTML = '<div class="loader"></div><div>Loading advertisement...</div>';
 
-            // EXACT MONTAG FUNCTION FROM YOUR DASHBOARD
+            // MONTAG REWARDED ADS
             show_9798816().then(() => {
-                // YOU NEED TO ADD YOUR USER REWARD FUNCTION HERE
                 // User completed ad successfully - GIVE REWARD
                 const userEarning = (Math.random() * 3 + 2).toFixed(2); // ₹2-5 random
                 const earningAmount = parseFloat(userEarning);
@@ -724,22 +790,38 @@
                 updateUI();
                 
                 // Show success
-                adPlaceholder.innerHTML = `✅ Ad completed! You earned ₹${userEarning}`;
-                showToast(`🎉 You earned ₹${userEarning}!`);
+                adPlaceholder.innerHTML = `
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem;">🎉</div>
+                        <div style="color: var(--secondary); font-weight: bold; margin-top: 10px;">
+                            You earned ₹${userEarning}!
+                        </div>
+                    </div>
+                `;
+                showToast(`💰 You earned ₹${userEarning}! Keep going!`);
                 
                 // Reset button
-                watchAdBtn.disabled = false;
-                watchAdBtn.textContent = 'Watch Ad & Earn ₹2-5';
+                setTimeout(() => {
+                    watchAdBtn.disabled = false;
+                    watchAdBtn.textContent = '🎮 Watch Ad & Earn ₹2-5';
+                    adPlaceholder.textContent = '🎯 Ready to watch another ad?';
+                }, 2000);
                 
             }).catch((error) => {
                 // Ad failed or user closed
                 console.error('Ad error:', error);
-                adPlaceholder.textContent = 'Ad failed to load. Try again.';
-                showToast('Ad failed to load. Try again.');
+                adPlaceholder.innerHTML = `
+                    <div style="text-align: center; color: var(--text-muted);">
+                        <div>❌</div>
+                        <div>Ad failed to load</div>
+                        <div style="font-size: 0.8rem; margin-top: 5px;">Please try again</div>
+                    </div>
+                `;
+                showToast('❌ Ad failed to load. Try again.');
                 
                 // Reset button
                 watchAdBtn.disabled = false;
-                watchAdBtn.textContent = 'Watch Ad & Earn ₹2-5';
+                watchAdBtn.textContent = '🎮 Watch Ad & Earn ₹2-5';
             });
         });
 
@@ -757,7 +839,7 @@
         // Handle withdrawal request
         withdrawBtn.addEventListener('click', function() {
             if (!currentUser) {
-                showToast('Please login first');
+                showToast('🎯 Please login first');
                 return;
             }
 
@@ -765,50 +847,78 @@
             const method = withdrawMethod.value;
             
             if (!amount || amount < 20) {
-                showToast('Minimum withdrawal amount is ₹20');
+                showToast('💰 Minimum withdrawal amount is ₹20');
                 return;
             }
             
             if (amount > userData.balance) {
-                showToast('Insufficient balance');
+                showToast('❌ Insufficient balance');
                 return;
             }
             
+            let details = '';
             let detailsValid = true;
+            
             if (method === 'upi') {
                 const upiId = document.getElementById('upiId').value;
                 if (!upiId) {
-                    showToast('Please enter UPI ID');
+                    showToast('📱 Please enter UPI ID');
                     detailsValid = false;
+                } else {
+                    details = `UPI ID: ${upiId}`;
                 }
             } else {
                 const accountNumber = document.getElementById('accountNumber').value;
                 const ifscCode = document.getElementById('ifscCode').value;
                 if (!accountNumber || !ifscCode) {
-                    showToast('Please enter bank details');
+                    showToast('🏦 Please enter bank details');
                     detailsValid = false;
+                } else {
+                    details = `Account: ${accountNumber}, IFSC: ${ifscCode}`;
                 }
             }
             
             if (!detailsValid) return;
             
-            let finalAmount = amount;
+            // Calculate commission
             let commission = 0;
-            
             if (amount > 100) {
                 commission = amount * 0.10;
-                finalAmount = amount - commission;
             }
             
+            // Create withdrawal request
+            const withdrawalRequest = {
+                id: Date.now(),
+                userId: currentUser.id,
+                userName: currentUser.name,
+                userEmail: currentUser.email,
+                amount: amount,
+                method: method,
+                details: details,
+                adminCommission: commission,
+                status: 'pending',
+                date: new Date().toISOString()
+            };
+            
+            // Save to localStorage
+            const withdrawals = JSON.parse(localStorage.getItem('withdrawal_requests') || '[]');
+            withdrawals.push(withdrawalRequest);
+            localStorage.setItem('withdrawal_requests', JSON.stringify(withdrawals));
+            
+            // Update user balance
             userData.balance -= amount;
             updateUI();
             
-            let successMsg = `Withdrawal request of ₹${amount} submitted!`;
+            // Show success message
+            let successMsg = `✅ Withdrawal request of ₹${amount} submitted!`;
             if (commission > 0) {
-                successMsg += ` (₹${commission} commission applied)`;
+                successMsg += ` (₹${commission} game commission)`;
             }
+            successMsg += ' Awaiting approval.';
             
             showToast(successMsg);
+            
+            // Reset form
             withdrawAmount.value = '';
             document.getElementById('upiId').value = '';
             document.getElementById('accountNumber').value = '';
